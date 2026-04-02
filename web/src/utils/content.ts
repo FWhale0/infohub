@@ -42,5 +42,14 @@ export function getReaderContent(item: Item): string {
 }
 
 export function sanitizeHtml(html: string): string {
-  return DOMPurify.sanitize(html)
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [
+      'p', 'br', 'strong', 'b', 'em', 'i', 'u', 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'hr', 'table', 'thead', 'tbody',
+      'tr', 'th', 'td', 'img', 'div', 'span'
+    ],
+    ALLOWED_ATTR: [
+      'href', 'title', 'target', 'src', 'alt', 'class', 'style'
+    ]
+  })
 }
