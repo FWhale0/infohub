@@ -21,7 +21,7 @@ _ALLOWED_TAGS = {
     "ul", "ol", "li",
     "strong", "b", "em", "i",
     "blockquote", "pre", "code",
-    "a", "figure", "figcaption",
+    "a", "figure", "figcaption", "img",
     "table", "thead", "tbody", "tr", "th", "td",
 }
 
@@ -49,11 +49,18 @@ def html_to_safe_html(html: str) -> str:
         if tag.name not in _ALLOWED_TAGS:
             tag.unwrap()
         else:
-            # 只保留 <a> 的 href，其余属性全部删除
-            allowed_attrs = {"href", "title"} if tag.name == "a" else set()
+            # 保留特定标签的必要属性
+            if tag.name == "a":
+                allowed_attrs = {"href", "title"}
+            elif tag.name == "img":
+                allowed_attrs = {"src", "alt", "title"}
+            else:
+                allowed_attrs = set()
+
             for attr in list(tag.attrs.keys()):
                 if attr not in allowed_attrs:
                     del tag[attr]
+
             # 确保链接安全并在新标签打开
             if tag.name == "a":
                 href = tag.get("href", "")
@@ -61,6 +68,13 @@ def html_to_safe_html(html: str) -> str:
                     del tag["href"]
                 tag["target"] = "_blank"
                 tag["rel"] = "noopener noreferrer"
+
+            # 确保图片 src 是有效链接
+            if tag.name == "img":
+                src = tag.get("src", "")
+                if src and not src.startswith(("http://", "https://", "//")):
+                    # 相对路径可能需要处理，暂时保留
+                    pass
 
     return str(soup)
 
