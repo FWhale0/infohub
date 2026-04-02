@@ -14,9 +14,14 @@ export function FeedCard({ item }: { item: Item }) {
           <span className="chip">{item.category || 'general'}</span>
         </div>
         <p className="item-summary">{getPreviewContent(item)}</p>
-        <p className="item-hint">点击卡片阅读全文</p>
       </Link>
-      <a href={item.url || '#'} target="_blank" rel="noopener noreferrer" className="source-link">
+      <a
+        href={item.url || '#'}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="source-link"
+        onClick={(e) => e.stopPropagation()}
+      >
         查看原文
       </a>
     </article>

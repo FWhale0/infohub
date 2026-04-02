@@ -3,10 +3,10 @@ import { FeedCard } from './FeedCard'
 
 export function FeedList({ items }: { items: Item[] }) {
   return (
-    <section id="items-list">
+    <div className="feed-list">
       {items.map((item) => (
         <FeedCard key={item.id} item={item} />
       ))}
-    </section>
+    </div>
   )
 }

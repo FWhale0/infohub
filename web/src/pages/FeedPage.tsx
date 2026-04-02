@@ -27,13 +27,9 @@ export function FeedPage({ onOpenMenu }: FeedPageProps) {
       <div className="app">
         <AppHeader onOpenMenu={onOpenMenu} />
 
-        <section className="panel inline-panel">
-          <div className="panel-body">
-            <CategoryFilter value={category} onChange={setCategory} />
-          </div>
-        </section>
-
-        <div className="feed-title">内容卡片</div>
+        <div style={{ marginBottom: '20px' }}>
+          <CategoryFilter value={category} onChange={setCategory} />
+        </div>
 
         {isLoading && <Loading />}
         {isError && <ErrorState text={`加载失败：${error instanceof Error ? error.message : '未知错误'}`} />}
